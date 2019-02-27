@@ -16,18 +16,18 @@
 <script>
 export default {
   data() {
-    return{
-      second: " ",
+    return {
+      second: '',
       isdisabled: false,
-    }
+    };
   },
   methods: {
     countdown() {
-      this.isdisabled==='true';
-      const time = window.setInterval(() => {
+      // this.isdisabled === 'true';
+      const time = setInterval(() => {
         if (this.second === 0) {
           this.second = 0;
-          window.clearInterval(time);
+          clearInterval(time);
         } else {
           this.second -= 1;
         }

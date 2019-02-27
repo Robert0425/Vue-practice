@@ -15,7 +15,14 @@ export default {
   },
   computed: {
     countNum() {
-      return Number(this.num1) * Number(this.num2);
+      const arg1 = this.num1;
+      const arg2 = this.num2;
+      let m = 0;
+      const s1 = arg1.toString();
+      const s2 = arg2.toString();
+      try { m += s1.split('.')[1].length; } catch (e) { m = 0; }
+      try { m += s2.split('.')[1].length; } catch (e) { m = 0; }
+      return Number(s1.replace('.', '')) * Number(s2.replace('.', '')) / (10 ** m);
     },
   },
 };

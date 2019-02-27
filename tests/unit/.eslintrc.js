@@ -3,7 +3,7 @@ module.exports = {
     jest: true,
   },
   rules: {
-    "no-tabs":"off",
-    "quotes": [1, "single"],
-  }
+    'no-tabs': 'off',
+    quotes: [1, 'single'],
+  },
 };

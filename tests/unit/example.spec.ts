@@ -16,5 +16,4 @@ describe('HelloWorld.vue', () => {
   //   wrapper.find('button').trigger('click');
   //   expect(wrapper.vm.count).toBe(1);
   // });
-
 });

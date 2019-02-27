@@ -59,6 +59,6 @@ export default new Router({
           component: () => import(/* webpackChunkName: "divided" */ './views/Divided.vue'),
         },
       ],
-    }
+    },
   ],
 });

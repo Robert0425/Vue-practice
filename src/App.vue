@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       count: 0,
-      link: "",
+      link: '',
     };
   },
   methods: {
