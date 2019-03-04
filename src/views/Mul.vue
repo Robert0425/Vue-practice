@@ -1,6 +1,6 @@
 <template>
     <div class="mul">
-        <input type="text" v-model="num1"> * <input type="text" v-model="num2">
+        <input type="text" v-model="num1" id="num1"> * <input type="text" v-model="num2" id="num2">
         <p>{{countNum}}</p>
     </div>
 </template>

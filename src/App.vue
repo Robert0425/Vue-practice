@@ -1,17 +1,19 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/lobby">Home</router-link>|
-      <router-link to="/about">About</router-link>|
-      <router-link to="/computed">Computed</router-link>|
-      <router-link to="/timer">Timer</router-link>
+      <ul>
+        <li><router-link to="/lobby">Home</router-link></li>|
+        <li><router-link to="/about">About</router-link></li>|
+        <li><router-link to="/computed" id="computed">Computed</router-link></li>|
+        <li><router-link to="/timer" id="timer">Timer</router-link></li>
+      </ul>
       <br>
-      <input type="text" v-model="link">
-      <router-link :to="{ name:'panel', params:{id:link} }">Go</router-link>
+      <input type="text" v-model="link" id="link">
+      <router-link :to="{ name:'panel', params:{id:link} }" id="go">Go</router-link>
     </div>
     <router-view></router-view>
     <p>{{ count }}</p>
-    <button @click="increment">increment</button>
+    <button name="btn" @click="increment">increment</button>
     <br>
   </div>
 </template>

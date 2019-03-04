@@ -1,7 +1,7 @@
 <template>
   <div class="timer">
     <h1>倒數<input class="sec" type="text" v-model="second">秒鐘</h1>
-    <button @click="countdown" :disabled="isdisabled">Start</button>
+    <button @click="countdown" :disabled="isdisabled" id="start">Start</button>
   </div>
 </template>
 
@@ -24,7 +24,7 @@ export default {
   methods: {
     countdown() {
       // this.isdisabled === 'true';
-      const time = setInterval(() => {
+      const time = setInterval(function() {
         if (this.second === 0) {
           this.second = 0;
           clearInterval(time);
