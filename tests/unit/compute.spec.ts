@@ -5,6 +5,7 @@ import mul from '../../src/views/Mul.vue';
 import Div from '../../src/views/Divided.vue';
 import time from '../../src/views/timer.vue';
 import router from '@/router';
+import sinon from 'sinon';
 
 describe('add', () => {
   it('test addition', () => {
@@ -61,3 +62,23 @@ describe('Div', () => {
     expect(wrapper.text()).toBe('/  2');
   });
 });
+
+describe('time', () => {
+
+  it('test timer', () => {
+    const clock = sinon.useFakeTimers();
+      const wrapper: any  = shallowMount(time, {
+    data() {
+      return{
+        second: 5
+      };
+    },
+  });
+    const button = wrapper.find('button');
+    const input: any = wrapper.find('.sec');
+    button.trigger('click');
+    expect(input.element.value).toBe("5");
+    clock.tick(2000);
+    expect(input.element.value).not.toBe("4");
+  })
+})
