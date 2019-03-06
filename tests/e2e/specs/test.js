@@ -60,12 +60,18 @@ module.exports = {
       .click('#timer')
       .pause(1000)
       .assert.urlContains('http://localhost:8080/timer')
-      .setValue('#sec', 5)
+      .setValue('#sec', 3)
       .click('#start')
-      .pause(5000)
-      .getValue('#sec', function (result) {
-        this.assert.equal(result.value, 0);
-      })
+      .assert.containsText('.countdown', '倒數3秒')
+      .pause(1000)
+      // .getValue('#sec', function (result) {
+      //   this.assert.equal(result.value, 0);
+      // })
+      .assert.containsText('.countdown', '倒數2秒')
+      .pause(1000)
+      .assert.containsText('.countdown', '倒數1秒')
+      .pause(1000)
+      .assert.containsText('.countdown', '倒數0秒')
       .end();
   },
 };

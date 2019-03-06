@@ -70,15 +70,25 @@ describe('time', () => {
       const wrapper: any  = shallowMount(time, {
     data() {
       return{
-        second: 5
+        second: 3
       };
     },
   });
     const button = wrapper.find('button');
-    const input: any = wrapper.find('.sec');
+    const sec :any = wrapper.find('h1');
     button.trigger('click');
-    expect(input.element.value).toBe("5");
-    clock.tick(2000);
-    expect(input.element.value).not.toBe("4");
+    expect(wrapper.text()).toContain("倒數3秒");
+    clock.tick(1000);
+    expect(wrapper.text()).toContain("倒數2秒");
+    clock.tick(1000);
+    expect(wrapper.text()).toContain("倒數1秒");
+    clock.tick(1000);
+    expect(wrapper.text()).toContain("倒數0秒");
+    clock.restore();
+    // const input: any = wrapper.find('.sec');
+    // button.trigger('click');
+    // expect(input.element.value).toBe("5");
+    // clock.tick(1000);
+    // expect(input.element.value).toBe("4");
   })
 })
