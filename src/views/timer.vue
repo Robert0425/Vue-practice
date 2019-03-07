@@ -4,7 +4,7 @@
       <input class="sec" type="text" v-model="second" id="sec" /> 秒
     </h2>
     <button id="start" @click="countdown" :disabled="isdisabled">Start</button>
-    <h1 v-if="show" class="countdown">倒數{{sec}}秒</h1>
+    <h1 v-if="show" class="countdown">倒數{{min}}分{{sec}}秒</h1>
   </div>
 </template>
 
@@ -23,22 +23,31 @@ export default {
       second: '',
       isdisabled: false,
       sec: '',
+      min: '',
       show: false,
     };
   },
   methods: {
     countdown() {
-      this.sec = this.second;
+      let timeleft = Number(this.second) + 1;
       this.isdisabled = true;
-      this.show = true;
       const time = setInterval(() => {
-        console.log(this.sec);
-        if (this.sec === 0) {
+        this.show = true;
+        // console.log(this.sec);
+        if (timeleft <= 0) {
           clearInterval(time);
           this.isdisabled = false;
           this.show = false;
         } else {
-          this.sec -= 1;
+          timeleft -= 1;
+          this.sec = timeleft % 60;
+          this.min = parseInt(timeleft / 60, 10);
+          if (this.sec < 10) {
+            this.sec = `0${this.sec}`;
+          }
+          if (this.min < 10) {
+            this.min = `0${this.min}`;
+          }
         }
       }, 1000);
     },

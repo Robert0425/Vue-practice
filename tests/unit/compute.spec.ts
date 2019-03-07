@@ -77,13 +77,12 @@ describe('time', () => {
     const button = wrapper.find('button');
     const sec :any = wrapper.find('h1');
     button.trigger('click');
-    expect(wrapper.text()).toContain("倒數3秒");
     clock.tick(1000);
-    expect(wrapper.text()).toContain("倒數2秒");
+    expect(wrapper.text()).toContain("倒數00分03秒");
     clock.tick(1000);
-    expect(wrapper.text()).toContain("倒數1秒");
+    expect(wrapper.text()).toContain("倒數00分02秒");
     clock.tick(1000);
-    expect(wrapper.text()).toContain("倒數0秒");
+    expect(wrapper.text()).toContain("倒數00分01秒");
     clock.restore();
     // const input: any = wrapper.find('.sec');
     // button.trigger('click');
