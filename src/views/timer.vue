@@ -4,6 +4,7 @@
       <input class="sec" type="text" v-model="second" id="sec" /> 秒
     </h2>
     <button id="start" @click="countdown" :disabled="isdisabled">Start</button>
+    <button id="Pause" @click="pause">Pause</button>
     <h1 v-if="show" class="countdown">倒數{{min}}分{{sec}}秒</h1>
   </div>
 </template>
@@ -50,6 +51,9 @@ export default {
           }
         }
       }, 1000);
+    },
+    pause() {
+      this.countdown((time));
     },
   },
   watch: {

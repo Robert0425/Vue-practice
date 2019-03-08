@@ -5,7 +5,8 @@
         <li><router-link to="/lobby">Home</router-link></li>|
         <li><router-link to="/about">About</router-link></li>|
         <li><router-link to="/computed" id="computed">Computed</router-link></li>|
-        <li><router-link to="/timer" id="timer">Timer</router-link></li>
+        <li><router-link to="/timer" id="timer">Timer</router-link></li>|
+        <li><router-link to="/moment" id="moment">Moment</router-link></li>
       </ul>
       <br>
       <input type="text" v-model="link" id="link">
@@ -13,7 +14,7 @@
     </div>
     <router-view></router-view>
     <p>{{ count }}</p>
-    <button name="btn" @click="increment">increment</button>
+    <button name="btn" @click="increment">increment</button><br>
     <br>
   </div>
 </template>

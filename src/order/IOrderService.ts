@@ -7,9 +7,9 @@ export default interface IOrderService {
   platform: number;
   portal: number;
   client: number;
-  orders: IOrder[];
-  add(order: IOrder): number;
-  delete(index: number): void;
-  getChoose(index: number): string;
-  error(): string;
+  orders: string;
+  add(order: IOrder): string;
+  // delete(index: number): string;
+  // getChoose(index: number): string;
+  // error(): string;
 }

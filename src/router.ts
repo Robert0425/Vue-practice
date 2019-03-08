@@ -29,6 +29,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "timer" */ './views/timer.vue'),
     },
     {
+      path: '/moment',
+      name: 'moment',
+      component: () => import(/* webpackChunkName: "moment" */ './views/moment.vue'),
+    },
+    {
       path: '/:id/panel',
       name: 'panel',
       component: Panel,
