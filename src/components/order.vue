@@ -1,14 +1,16 @@
 <template>
-  <div class="order">
-    <button @click="postdata">Post</button>
-  </div>
+    <div>
+      <button @click = 'postdata'>Post</button>
+    </div>
 </template>
 
-<script>
-import {Vue, Component} from 'vue-property-decorator'
+
+<script lang = 'ts'>
 import axios from 'axios';
-import Qs from 'qs';
-import OrderService from '@/order/IOrderService';
+import qs from 'qs';
+import { Component, Provide, Vue } from 'vue-property-decorator';
+import OrderService from '../order/OrderService';
+import IOrderService from '../order/IOrderService';
 
 const config = {
   withCredentials: true,
@@ -17,39 +19,64 @@ const config = {
   },
 };
 
-export default{
-  data() {
-    return {
-      order: {
-        game: 'LDRS',
-        game_num: 20190308029,
-        entrance: 7,
-        platform: 0,
-        portal: 0,
-        client: 0,
-        orders: JSON.stringify([[{"choose":"ODD:END","odds":{"ODD:END":1.97},"tag":"main-page","gold":5,"bets":1}]]),
-      },
-    };
-  },
+// const send = new OrderService(axios);
+@Component
+export default class Order extends Vue {
+  order: IOrderService = {
+    game: 'LDDR',
+    game_num: 201903110030,
+    entrance: 7,
+    platform: 0,
+    portal: 0,
+    client: 0,        
+    orders: JSON.stringify([[{ "choose":"ODD:END", "odds":{"ODD:END":1.97}, "tag":"main-page", "gold":5,"bets":1 }]]),
+  }
   created() {
-    this.order = new OrderService();
-  },
-  methods: {
-    postdata() {
-      
-      axios
-        .post(
-          'http://lt.vir999.net/pt/mem/ajax/shoppingcart/order.json?timestamp=1552025800926',
-          Qs.stringify(this.data),
-          config,
-        )
-        .then((response) => {
-          alert('投注成功');
-        })
-        .catch((error) => {
-          alert('投注失敗');
-        });
-    },
-  },  
+    this === this;
+  }
+  //methods
+  public postdata() {  
+    axios
+      .post(
+        'http://lt.vir999.net/pt/mem/ajax/shoppingcart/order.json?timestamp=1552281905135',
+        qs.stringify(this.order),
+        config,
+      )
+      .then((response: any) => {
+        alert('投注成功');
+      })
+      .catch((error: any) => {
+        alert('投注失敗');
+      })
+  }  
 };
 </script>
+
+
+// import axios from 'axios';
+// import OrderService from '../order/OrderService';
+
+// export default {
+//   data() {
+//     return {
+//        order: {
+//         game: 'LDDR',
+//         game_num: 201903110030,
+//         entrance: 7,
+//         platform: 0,
+//         portal: 0,
+//         client: 0,
+//         orders: JSON.stringify([[{ "choose":"ODD:END", "odds":{"ODD:END":1.97}, "tag":"main-page", "gold":5,"bets":1 }]]),
+//       }
+//     }
+//   },
+//   created() {
+//     this.send = new OrderService(axios);
+//   },
+//   methods: {
+//     postdata() {
+//       this.send.postOrder(this.order);
+//     }
+//   },
+// }
+// </script>

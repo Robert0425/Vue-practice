@@ -1,5 +1,3 @@
-import IOrder from './IOrder';
-
 export default interface IOrderService {
   game: string;
   game_num: number;
@@ -8,8 +6,4 @@ export default interface IOrderService {
   portal: number;
   client: number;
   orders: string;
-  add(order: IOrder): string;
-  // delete(index: number): string;
-  // getChoose(index: number): string;
-  // error(): string;
 }

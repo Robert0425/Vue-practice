@@ -1,28 +1,30 @@
+import axios from 'axios';
+import qs from 'qs';
 import IOrderService from './IOrderService';
-import IOrder from './IOrder';
 
-export default class OrderService implements IOrderService {
-  game: string = 'LDRS';
-  game_num: number = 20190307046;
-  entrance: number = 7;
-  platform: number = 0;
-  portal: number = 0;
-  client: number = 0;
-  orders: IOrder[] = JSON.stringify([[{"choose":"ODD:END","odds":{"ODD:END":1.97},"tag":"main-page","gold":5,"bets":1}]]);
-  // constructor(game: string) {
-  //   this.game = game
-  // }
-  add(order: IOrder): string{
-    return 'Success add';
+const config = {
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+};
+
+export default class OrderService {
+  constructor (ios: any){
+    ios = axios;
   }
-  // delete(index: number): string{
-  //   return 'Success delete';
-  // }
-  // getChoose(index: number): string{
-  //   return 'GG';
-  // }
-  // error() {
-  //   return 'error';
-  // }
+  postOrder(order:IOrderService) {
+    axios
+      .post(
+        'http://lt.vir999.net/pt/mem/ajax/shoppingcart/order.json?timestamp=1552273833448',
+        qs.stringify(order),
+        config,
+      )
+      .then((response) => {
+        alert('投注成功');
+      })
+      .catch((error) => {
+        alert('投注失敗');
+      });
+  }
 }
-
