@@ -4,7 +4,7 @@
       <input class="sec" type="text" v-model="second" id="sec" /> 秒
     </h2>
     <button id="start" @click="countdown" :disabled="isdisabled">Start</button>
-    <button id="Pause" @click="pause">Pause</button>
+    <button id="Pause" @click="pause">{{cp}}</button>
     <h1 v-if="show" class="countdown">倒數{{min}}分{{sec}}秒</h1>
   </div>
 </template>
@@ -26,15 +26,16 @@ export default {
       sec: '',
       min: '',
       show: false,
+      cp: 'Pause',
     };
   },
   methods: {
     countdown() {
       let timeleft = Number(this.second) + 1;
       this.isdisabled = true;
-      const time = setInterval(() => {
+      self.time = setInterval(() => {
         this.show = true;
-        // console.log(this.sec);
+        console.log(this.second);
         if (timeleft <= 0) {
           clearInterval(time);
           this.isdisabled = false;
@@ -53,13 +54,11 @@ export default {
       }, 1000);
     },
     pause() {
-      this.countdown((time));
+      clearInterval(self.time);
     },
   },
-  watch: {
-    $route(to, from) {
-      vm.countdown();
-    },
+  destroyed() {
+    this.pause();
   },
 };
 </script>

@@ -13,9 +13,6 @@
       <router-link :to="{ name:'panel', params:{id:link} }" id="go">Go</router-link>
     </div>
     <router-view></router-view>
-    <p>{{ count }}</p>
-    <button name="btn" @click="increment">increment</button><br>
-    <br>
   </div>
 </template>
 
@@ -43,14 +40,8 @@
 export default {
   data() {
     return {
-      count: 0,
       link: '',
     };
-  },
-  methods: {
-    increment() {
-      this.count += 1;
-    },
   },
 };
 </script>

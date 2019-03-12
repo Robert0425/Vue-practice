@@ -8,8 +8,7 @@
 <script lang = 'ts'>
 import axios from 'axios';
 import qs from 'qs';
-import { Component, Provide, Vue } from 'vue-property-decorator';
-import OrderService from '../order/OrderService';
+import { Component, Vue } from 'vue-property-decorator';
 import IOrderService from '../order/IOrderService';
 
 const config = {
@@ -24,15 +23,12 @@ const config = {
 export default class Order extends Vue {
   order: IOrderService = {
     game: 'LDDR',
-    game_num: 201903110030,
+    game_num: 201903110071,
     entrance: 7,
     platform: 0,
     portal: 0,
     client: 0,        
     orders: JSON.stringify([[{ "choose":"ODD:END", "odds":{"ODD:END":1.97}, "tag":"main-page", "gold":5,"bets":1 }]]),
-  }
-  created() {
-    this === this;
   }
   //methods
   public postdata() {  
