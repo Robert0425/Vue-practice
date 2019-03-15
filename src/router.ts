@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Panel from './views/panel.vue';
+import Game from './views/Game.vue';
 
 Vue.use(Router);
 
@@ -37,6 +38,11 @@ export default new Router({
       path: '/:id/panel',
       name: 'panel',
       component: Panel,
+    },
+    {
+      path: '/game/:id',
+      name: 'game',
+      component: Game,
     },
     {
       path: '/computed',
