@@ -11,6 +11,7 @@ export default new Vuex.Store({
     games: {},
     servertime: NaN,
     count: 0,
+    ret: {},
   },
   getters: {
     getGameCurrentInfo(state) {
@@ -34,6 +35,14 @@ export default new Vuex.Store({
           state.servertime = response.data.server_time;
         });
     },
+    getOdds(state) {
+      axios
+        .get('http://lt.vir999.net/pt/provider/mem/source/filter.json?game_type=LDRS&data=%5B%22odds%22%2C%22disable_odds%22%5D&timestamp=1552642864127')
+        .then(response => {
+          //Ret
+          state.ret = response.data.ret;
+        });
+    },
     servertime(state) {
       state.servertime++;
     },
@@ -42,6 +51,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    getOdds({commit}) {
+      commit('getOdds');
+    },
     getlobby({commit}) {
       commit('getlobby');
       // setInterval(() => {commit('getlobby')}, 10000);

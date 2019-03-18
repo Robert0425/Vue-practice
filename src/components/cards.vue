@@ -1,20 +1,10 @@
 <template>
   <div class="cards">
     <h2>現在時間 : {{now}}</h2>
-    <div class="card">
-      <h4>No. {{game_num_bbpt}}</h4>
-      <h3>BB 深海派對</h3>
-      <h1>{{game_time_bbpt}}</h1>
-    </div>
-    <div class="card">
-      <h4>No. {{game_num_lddr}}</h4>
-      <h3>BB 梯子遊戲</h3>
-      <h1>{{game_time_lddr}}</h1>
-    </div>
     <ul>
       <li v-for="(game, index) in games">
-        <span>{{game.current.num}}</span>
-        <h4>{{index}}</h4>
+        <h4>No. {{game.current.num}}</h4>
+        <h3>{{index}}</h3>
         <h3 :style="{color: getColor(game.current.close_timestamp - servertime)}">{{countdown(game.current.close_timestamp - servertime)}}</h3>
         <router-link :to="{name:'game', params:{id:index}}"><button class='btn'>遊戲連結</button></router-link>
         <router-view></router-view>
@@ -37,16 +27,8 @@ export default {
   data() {
     return {
       games: [],
-      game_num_bbpt: '',
-      game_num_lddr: '',
       servertime: '',
-      closeTime_bbpt: '',
-      closeTime_lddr: '',
-      game_time_bbpt: '',
-      game_time_lddr: '',
-      game_time_: '',
       now: '',
-      game_name: '',
     };
   },
   async mounted() {
@@ -67,24 +49,12 @@ export default {
           // console.log('我回來了！');
           //ALL
           this.games = response.data.game.info;
-          // 旗號(BBPT)
-          this.game_num_bbpt = response.data.game.info.BBPT.current.num;
-          // 旗號(LDDR)
-          this.game_num_lddr = response.data.game.info.LDDR.current.num;
           // 伺服器時間
           this.servertime = response.data.server_time;
-          //結束時間(BBPT)
-          this.closeTime_bbpt = response.data.game.info.BBPT.current.close_timestamp;
-          //結束時間(LDDR)
-          this.closeTime_lddr = response.data.game.info.LDDR.current.close_timestamp;
         });
     },
     timeleft() {
       this.servertime++;
-      // const timeleft_bbpt = this.closeTime_bbpt - this.servertime;
-      // const timeleft_lddr = this.closeTime_lddr - this.servertime;
-      // this.game_time_bbpt = this.countdown(timeleft_bbpt);
-      // this.game_time_lddr = this.countdown(timeleft_lddr);
     },
     countdown(timeleft) {
       let game_time;
@@ -133,33 +103,23 @@ export default {
       white-space: nowrap;
       color:#cdbc9d;
     }
-    .card{
-      border:1px solid #ccc;
-      border-radius:10px;
-      width: 222px;
-      height: 196px;
-      padding-left:20px;
-      text-align: left;
-      margin: auto;
-      h4{
-        color:#ccc;
-      }
-      .green{
-        color:green;
-      }
-      .red{
-        color: red;
-      }
-      .gray{
-        color:#777;
-      }
-    }
     ul{
-      display:inline-block;
-      
+      display:flex;
+      flex-wrap:wrap;
+      list-style:none;
       li{
-        flex-direction:row;
-        width:300px;
+        h4{
+          color:#bbb;
+        }
+        h3{
+          color:#007979;
+        }
+        border:1px solid #ccc;
+        border-radius:10px;
+        width: 222px;
+        height: 196px;
+        padding-left:20px;
+        text-align: left;
       }
       .btn{
         width: 100px;
@@ -167,6 +127,8 @@ export default {
         background-color:#cdbc9d;
         position: relative;
         bottom: 10px;
+        font-size:17px;
+        color:#555;
       }
     }
   }
