@@ -1,25 +1,42 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-import games from './state';
+// import games from './state';
 
 Vue.use(Vuex);
 
+enum games {
+  
+}
+
 export default new Vuex.Store({
   state: {
-    // games: games,
     games: {},
     servertime: NaN,
     count: 0,
     ret: {},
   },
   getters: {
+    getColor(timeleft: any) {
+      if (timeleft > 10)
+      {
+        return 'green';
+      }
+      else if (timeleft <= 10 && timeleft > 0)
+      {
+        return 'red';
+      }
+      else
+      {
+        return 'gray';
+      }
+    },
     getGameCurrentInfo(state) {
-      return (gameType: string) => {
-        if (!state.games[gameType]) {
+      return (gameTypes: string) => {
+        if (!state.games[gameTypes]) {
           return {}
         }
-        return state.games[gameType].current;
+        return state.games[gameTypes].current;
       }
     },
   },

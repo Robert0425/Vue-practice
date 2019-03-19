@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <ul>
-        <li><router-link to="/lobby">Home</router-link></li>|
+        <li><router-link to="/lobby" id="home">Home</router-link></li>|
         <li><router-link to="/about">About</router-link></li>|
         <li><router-link to="/computed" id="computed">Computed</router-link></li>|
         <li><router-link to="/timer" id="timer">Timer</router-link></li>|

@@ -11,17 +11,22 @@
       <br>
       <div class="orderNum">投注數：{{orderNum}}</div>
       <button @click="addOrder">添加至注單</button>
-      <div class="orderList" v-if="isShow" v-for="(order, index) in orderList" :key="index">
+      <div class="orderList" v-for="(order, index) in orderList" :key="index">
         投注項目：{{order}}
-        <button @click="cancel">X</button>
+        <button @click="cancel(index)">X</button>
       </div>
-      <!-- <button @click="sendOrder">投注</button> -->
+      <div class="allNum">總注數：{{allNum}}</div>
+      <div class="allMoney">總下注金額：{{allMoney}}</div>
+      <button @click="cancelAll">全部清除</button>
+      <button @click="sendOrder">投注</button>
   </div>
 </template>
 
 <script>
 import store from '../store.ts';
+import axios from 'axios';
 import { mapActions, mapState } from 'vuex';
+import OrderAxios from '../order/OrderAxios';
 
 export default {
   data() {
@@ -31,12 +36,13 @@ export default {
       isActive: false,
       choose: [],
       odds: [],
-      isShow: false,
       orderList: [],
+      allNum: null,
+      allMoney: null,
     }
   },
   created() {
-    
+    this.orderAxios = new OrderAxios(axios);
   },
   methods: {
     countdown(timeleft) {
@@ -66,45 +72,73 @@ export default {
     confirm(i, odd) {
       const key = this.choose.indexOf(i);
       console.log(key);
+      //已經選擇
       if(key > -1) {
         this.choose.splice(key, 1);
         this.odds.splice(key, 1);
+      //選擇
       }else {
         this.choose.push(i);
         this.odds.push(odd);
       }
       this.orderNum = this.choose.length;
     },
-    cancel() {
-      
+    cancel(index) {
+      this.allNum = this.allNum - this.orderList[index][0].length;
+      this.allMoney = this.allMoney - this.orderList[index][2] * this.orderList[index][0].length;
+      this.orderList.splice(index, 1);
+    },
+    cancelAll() {
+      this.orderList = [];
+      this.allNum = null;
+      this.allMoney = null;
     },
     addOrder() {
-      const order = [this.choose, this.odds, this.money];
-      this.orderList.push(order);
       if(this.money <= 0) {
         window.alert("請輸入正確金額");
-        this.isShow = false;
       }else if(this.orderNum <= 0) {
         window.alert("請選擇投注項目");
-        this.isShow = false;
       }else{
+        const order = [this.choose, this.odds, this.money];
+        this.allMoney = this.allMoney + order[2]*this.orderNum;
+        this.allNum = this.allNum + this.orderNum;
+        this.orderList.push(order);
         this.isShow = true;
         this.orderNum = 0;
         this.choose = [];
         this.odds = [];
       }
     },
-    delete() {
-
+    produceOrder() {
+      const orders = [];
+      this.orderList.forEach((order) => {
+        order[0].forEach((item) => {
+          orders.push({
+            choose: item,
+            odds: { [item]: store.state.ret.odds[item] },
+            tag: 'main-page',
+            gold: order[2],
+            bets: 1,
+          });
+        });
+      });
+      return {
+        game: 'LDRS',
+        game_num: store.getters.getGameCurrentInfo('LDRS').num,
+        entrance: 7,
+        platform: 0,
+        portal: 0,
+        client: 0,
+        orders: JSON.stringify([orders]),
+      };
     },
-    // generateOrder() {
-    //   const order = [];
-    //   order.push({
-    //     choose: index,
-    //     odds: { [index]: this.odd},
-
-    //   })
-    // },
+    sendOrder() {
+      const order = this.produceOrder();
+      this.orderAxios.postOrder(order);
+      this.orderList = [];
+      this.allNum = null;
+      this.allMoney = null;
+    }
   },
   mounted() {
     store.dispatch('getlobby');

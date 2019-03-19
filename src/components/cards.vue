@@ -1,13 +1,12 @@
 <template>
   <div class="cards">
-    <h2>現在時間 : {{now}}</h2>
+    <h2 class="nowTime">現在時間 : {{now}}</h2>
     <ul>
       <li v-for="(game, index) in games">
         <h4>No. {{game.current.num}}</h4>
         <h3>{{index}}</h3>
         <h3 :style="{color: getColor(game.current.close_timestamp - servertime)}">{{countdown(game.current.close_timestamp - servertime)}}</h3>
         <router-link :to="{name:'game', params:{id:index}}"><button class='btn'>遊戲連結</button></router-link>
-        <router-view></router-view>
       </li>
     </ul>
   </div>
