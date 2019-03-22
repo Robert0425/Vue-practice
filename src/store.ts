@@ -1,12 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-// import games from './state';
+import games from './state';
 
 Vue.use(Vuex);
 
-enum games {
-  
+export interface state {
+  games: games,
+  servertime: number,
+  count: number,
+  ret: object,
 }
 
 export default new Vuex.Store({
@@ -17,21 +20,21 @@ export default new Vuex.Store({
     ret: {},
   },
   getters: {
-    getColor(timeleft: any) {
-      if (timeleft > 10)
-      {
-        return 'green';
-      }
-      else if (timeleft <= 10 && timeleft > 0)
-      {
-        return 'red';
-      }
-      else
-      {
-        return 'gray';
-      }
-    },
-    getGameCurrentInfo(state) {
+    // getColor(timeleft: any) {
+    //   if (timeleft > 10)
+    //   {
+    //     return 'green';
+    //   }
+    //   else if (timeleft <= 10 && timeleft > 0)
+    //   {
+    //     return 'red';
+    //   }
+    //   else
+    //   {
+    //     return 'gray';
+    //   }
+    // },
+    getGameCurrentInfo(state: state) {
       return (gameTypes: string) => {
         if (!state.games[gameTypes]) {
           return {}
@@ -41,7 +44,7 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    getlobby(state) {
+    getlobby(state: state) {
       axios.defaults.withCredentials = true;
       axios
         .get('http://lt.vir999.net/pt/mem/ajax/bb500/lobby?data=%5B%22game_info%22%5D&timestamp=1552370214906')
@@ -52,7 +55,7 @@ export default new Vuex.Store({
           state.servertime = response.data.server_time;
         });
     },
-    getOdds(state) {
+    getOdds(state: state) {
       axios
         .get('http://lt.vir999.net/pt/provider/mem/source/filter.json?game_type=LDRS&data=%5B%22odds%22%2C%22disable_odds%22%5D&timestamp=1552642864127')
         .then(response => {
@@ -60,10 +63,10 @@ export default new Vuex.Store({
           state.ret = response.data.ret;
         });
     },
-    servertime(state) {
+    servertime(state: state) {
       state.servertime++;
     },
-    increment(state) {
+    increment(state: state) {
       state.count++;
     },
   },

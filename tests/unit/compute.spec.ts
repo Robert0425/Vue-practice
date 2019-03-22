@@ -64,16 +64,15 @@ describe('Div', () => {
 });
 
 describe('time', () => {
-
   it('test timer', () => {
     const clock = sinon.useFakeTimers();
-      const wrapper: any  = shallowMount(time, {
-    data() {
-      return{
-        second: 3
-      };
-    },
-  });
+    const wrapper: any  = shallowMount(time, {
+      data() {
+        return{
+          second: 3
+        };
+      },
+    });
     const button = wrapper.find('button');
     const sec :any = wrapper.find('h1');
     button.trigger('click');
@@ -91,3 +90,4 @@ describe('time', () => {
     // expect(input.element.value).toBe("4");
   })
 })
+

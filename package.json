@@ -7,15 +7,19 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit --detectOpenHandles"
   },
   "dependencies": {
+    "@types/assert": "^1.4.2",
+    "@types/moxios": "^0.4.8",
     "@types/qs": "^6.5.2",
     "@types/sinon": "^7.0.8",
+    "assert": "^1.4.1",
     "axios": "^0.18.0",
     "gusher-js": "^0.3.2",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
+    "moxios": "^0.4.0",
     "qs": "^6.6.0",
     "sinon": "^7.2.6",
     "vue": "^2.6.6",

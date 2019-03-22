@@ -1,24 +1,24 @@
 <template>
   <div class="game">
       <h4>No. {{ $store.getters.getGameCurrentInfo($route.params.id).num }}</h4>
-      <h3>{{$route.params.id}}</h3>
-      <h2 :style="{color: getColor($store.getters.getGameCurrentInfo($route.params.id).close_timestamp - $store.state.servertime)}">{{ countdown($store.getters.getGameCurrentInfo($route.params.id).close_timestamp - $store.state.servertime) }}</h2>
+      <h3 class="gameName">{{$route.params.id}}</h3>
+      <h2 id="gametime" :style="{color: getColor($store.getters.getGameCurrentInfo($route.params.id).close_timestamp - $store.state.servertime)}">{{ countdown($store.getters.getGameCurrentInfo($route.params.id).close_timestamp - $store.state.servertime) }}</h2>
       <h3>{{$store.state.servertime}}</h3>
-      <div class="items">
+      <div class="items" id="items">
         <button v-for="(odd, index) in $store.state.ret.odds" :key="index" :class="choose.includes(index) ? 'active' : ''" @click="confirm(index, odd)">{{index}} {{odd}}</button>
       </div>
-      每注：<input v-model.number="money" type="number">
+      每注：<input v-model.number="money" type="number" id="money">
       <br>
       <div class="orderNum">投注數：{{orderNum}}</div>
-      <button @click="addOrder">添加至注單</button>
+      <button @click="addOrder" id="addOrder">添加至注單</button>
       <div class="orderList" v-for="(order, index) in orderList" :key="index">
         投注項目：{{order}}
-        <button @click="cancel(index)">X</button>
+        <button @click="cancel(index)" class="delete" >X</button>
       </div>
       <div class="allNum">總注數：{{allNum}}</div>
       <div class="allMoney">總下注金額：{{allMoney}}</div>
-      <button @click="cancelAll">全部清除</button>
-      <button @click="sendOrder">投注</button>
+      <button @click="cancelAll" id="clear">全部清除</button>
+      <button @click="sendOrder" id="betting" :disabled="isbet">投注</button>
   </div>
 </template>
 
@@ -39,6 +39,7 @@ export default {
       orderList: [],
       allNum: null,
       allMoney: null,
+      isbet: true,
     }
   },
   created() {
@@ -87,9 +88,13 @@ export default {
       this.allNum = this.allNum - this.orderList[index][0].length;
       this.allMoney = this.allMoney - this.orderList[index][2] * this.orderList[index][0].length;
       this.orderList.splice(index, 1);
+      if(this.orderList = []){
+        this.isbet = true;
+      }
     },
     cancelAll() {
       this.orderList = [];
+      this.isbet = true;
       this.allNum = null;
       this.allMoney = null;
     },
@@ -103,7 +108,7 @@ export default {
         this.allMoney = this.allMoney + order[2]*this.orderNum;
         this.allNum = this.allNum + this.orderNum;
         this.orderList.push(order);
-        this.isShow = true;
+        this.isbet = false;
         this.orderNum = 0;
         this.choose = [];
         this.odds = [];
@@ -138,6 +143,7 @@ export default {
       this.orderList = [];
       this.allNum = null;
       this.allMoney = null;
+      this.isbet = true;
     }
   },
   mounted() {

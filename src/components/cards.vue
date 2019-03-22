@@ -1,11 +1,11 @@
 <template>
   <div class="cards">
-    <h2 class="nowTime">現在時間 : {{now}}</h2>
+    <h2 class="nowTime">現在時間 : {{serverTime($store.state.servertime)}}</h2>
     <ul>
-      <li v-for="(game, index) in games">
+      <li v-for="(game, index) in $store.state.games" :key="index">
         <h4>No. {{game.current.num}}</h4>
         <h3>{{index}}</h3>
-        <h3 :style="{color: getColor(game.current.close_timestamp - servertime)}">{{countdown(game.current.close_timestamp - servertime)}}</h3>
+        <h3 :style="{color: getColor(game.current.close_timestamp - $store.state.servertime)}">{{countdown(game.current.close_timestamp - $store.state.servertime)}}</h3>
         <router-link :to="{name:'game', params:{id:index}}"><button class='btn'>遊戲連結</button></router-link>
       </li>
     </ul>
@@ -13,55 +13,29 @@
 </template>
 
 <script>
-import axios from 'axios';
-import qs from 'qs';
-
-const config = {
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
-};
+import store from '../store.ts';
 
 export default {
   data() {
     return {
-      games: [],
-      servertime: '',
-      now: '',
+      
     };
   },
-  async mounted() {
-    await this.getlobby();
-    await setInterval(this.getlobby, 10000);
-    console.log('我做完了！換下一個人');
-    this.timer = setInterval(this.timeleft, 1000);
-    setInterval(this.serverTime, 1000);
+  mounted() {
+    store.dispatch('getlobby');
+    store.dispatch('servertime');
+    store.dispatch('getOdds');
+    this.lobby = setInterval(() => {store.dispatch('getlobby')}, 10000);
+    this.server = setInterval(() => {store.dispatch('servertime')}, 1000);
   },
   methods: {
-    getlobby() {
-      axios.defaults.withCredentials = true;
-      //current num
-      // console.log('我發送了！');
-      axios
-        .get('http://lt.vir999.net/pt/mem/ajax/bb500/lobby?data=%5B%22game_info%22%5D&timestamp=1552370214906')
-        .then(response => {
-          // console.log('我回來了！');
-          //ALL
-          this.games = response.data.game.info;
-          // 伺服器時間
-          this.servertime = response.data.server_time;
-        });
-    },
-    timeleft() {
-      this.servertime++;
-    },
     countdown(timeleft) {
       let game_time;
       let time = timeleft;
       let hr = this.addzero(Math.floor(time / 3600)) < 0 ? '00' : this.addzero(Math.floor(time / 3600));
       let min = this.addzero(Math.floor((time % 3600) / 60)) < 0 ? '00' : this.addzero(Math.floor((time % 3600) / 60));
       let sec = this.addzero(Math.floor(time % 60)) < 0 ? '00' : this.addzero(Math.floor(time % 60));
-      return game_time = `${hr}:${min}:${sec}`;
+      return `${hr}:${min}:${sec}`;
     },
     getColor(timeleft) {
       if (timeleft > 10)
@@ -77,22 +51,23 @@ export default {
         return 'gray';
       }
     },
-    serverTime() {
-      const date = new Date(this.servertime * 1000);
+    serverTime(now) {
+      const date = new Date(now * 1000);
       const y = date.getFullYear();
       const mo = this.addzero(date.getMonth() + 1);
       const d = this.addzero(date.getDate());
       const h = this.addzero(date.getHours());
       const m = this.addzero(date.getMinutes());
       const s = this.addzero(date.getSeconds());
-      this.now = `${y}/${mo}/${d} ${h}:${m}:${s}`;
+      return `${y}/${mo}/${d} ${h}:${m}:${s}`;
     },
     addzero(i) {
       return i < 10 && i >= 0 ? `0${i}` : i;
     },
   },
   destroyed() {
-    clearInterval(this.timer);
+    clearInterval(this.lobby);
+    clearInterval(this.server);
   },
 };
 </script>
